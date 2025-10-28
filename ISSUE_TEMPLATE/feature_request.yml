@@ -1,0 +1,37 @@
+name: 機能要望
+description: 新機能・改善要望の提案用テンプレート
+labels:
+  - enhancement
+body:
+  - type: textarea
+    id: summary
+    attributes:
+      label: 概要
+      description: 要望する機能や改善点を簡潔に記載してください
+      placeholder: 例）○○機能を追加してほしい
+    validations:
+      required: true
+  - type: textarea
+    id: background
+    attributes:
+      label: 背景・理由
+      description: なぜこの機能が必要か、背景や目的を記載してください
+      placeholder: 例）業務上の課題や改善理由など
+  - type: textarea
+    id: expected
+    attributes:
+      label: 期待する成果
+      description: 実現後にどうなっているべきか、受け入れ基準を記載してください
+      placeholder: 例）○○ができるようになる
+  - type: textarea
+    id: files
+    attributes:
+      label: 関連ファイル・URL
+      description: 関連するドキュメントや参考URLがあれば記載してください
+      placeholder: 例）仕様書URL、参考サービス
+  - type: textarea
+    id: notes
+    attributes:
+      label: 備考
+      description: その他補足事項があれば記載してください
+      placeholder: 例）優先度や制約条件など

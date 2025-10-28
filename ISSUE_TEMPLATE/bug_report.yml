@@ -1,0 +1,45 @@
+name: バグ報告
+description: 不具合・バグの報告用テンプレート
+labels:
+  - bug
+body:
+  - type: textarea
+    id: summary
+    attributes:
+      label: 概要
+      description: バグの内容を簡潔に記載してください
+      placeholder: 例）○○機能でエラーが発生する
+    validations:
+      required: true
+  - type: textarea
+    id: steps
+    attributes:
+      label: 再現手順
+      description: バグの再現手順を記載してください
+      placeholder: 例）1. ○○画面を開く 2. ××をクリック
+    validations:
+      required: true
+  - type: textarea
+    id: expected
+    attributes:
+      label: 期待する動作
+      description: 本来どう動作すべきか記載してください
+      placeholder: 例）○○が正常に表示される
+  - type: textarea
+    id: environment
+    attributes:
+      label: 環境情報
+      description: OS・ブラウザ・バージョン等、関連する環境情報を記載してください
+      placeholder: 例）Windows 10, Chrome 120
+  - type: textarea
+    id: files
+    attributes:
+      label: 関連ファイル・URL
+      description: 関連するドキュメントや参考URLがあれば記載してください
+      placeholder: 例）エラーログ、スクリーンショット
+  - type: textarea
+    id: notes
+    attributes:
+      label: 備考
+      description: その他補足事項があれば記載してください
+      placeholder: 例）一時的な回避策など

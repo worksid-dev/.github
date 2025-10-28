@@ -1,0 +1,31 @@
+name: その他（汎用）
+description: バグ・機能要望以外の問い合わせや相談用テンプレート
+labels:
+  - question
+body:
+  - type: textarea
+    id: summary
+    attributes:
+      label: 概要
+      description: このIssueの要点を簡潔に記載してください
+      placeholder: 例）○○について相談したい
+    validations:
+      required: true
+  - type: textarea
+    id: background
+    attributes:
+      label: 背景・理由
+      description: なぜこのIssueが必要か、背景や目的を記載してください
+      placeholder: 例）業務上の影響や経緯など
+  - type: textarea
+    id: files
+    attributes:
+      label: 関連ファイル・URL
+      description: 関連するドキュメントや参考URLがあれば記載してください
+      placeholder: 例）仕様書URL、関連PRなど
+  - type: textarea
+    id: notes
+    attributes:
+      label: 備考
+      description: その他補足事項があれば記載してください
+      placeholder: 例）環境依存の注意点など
