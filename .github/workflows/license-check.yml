@@ -1,0 +1,20 @@
+name: License Compliance
+
+on:
+  pull_request:
+  push:
+    branches: [ "main" ]
+
+jobs:
+  license-check:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Run License Compliance Checker
+        uses: pilosus/action-license-compliance@v1
+        with:
+          # 許可するライセンスをカンマ区切りで指定
+          allowed-licenses: MIT,BSD-2-Clause,BSD-3-Clause,Apache-2.0
+          # SPDX ID で指定するのが推奨
+          fail-on: "unlicensed,forbidden"
