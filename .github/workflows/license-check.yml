@@ -14,9 +14,12 @@ jobs:
       - uses: actions/checkout@v4
 
       - name: Run License Compliance Checker
-        uses: pilosus/action-license-compliance@v1
+        uses: pilosus/action-pip-license-checker@v3
         with:
-          # 許可するライセンスをカンマ区切りで指定
-          allowed-licenses: MIT,BSD-2-Clause,BSD-3-Clause,Apache-2.0
-          # SPDX ID で指定するのが推奨
-          fail-on: "unlicensed,forbidden"
+          # チェックする依存関係のファイル（複数の場合はカンマ区切りで記述）
+          requirements: 'yarn.lock,composer.lock'
+          # Permissive（MIT, BSD, Apache-2.0など）以外を全て失敗させる
+          fail: 'StrongCopyleft, WeakCopyleft, NetworkCopyleft, Proprietary, Other, Error'
+
+          # ライセンスが不明な（unlicensedなど）依存関係が存在する場合も失敗させる
+          fail-unspecified-license-type: true
