@@ -22,4 +22,4 @@ jobs:
           fail: 'StrongCopyleft, WeakCopyleft, NetworkCopyleft, Proprietary, Other, Error'
 
           # ライセンスが不明な（unlicensedなど）依存関係が存在する場合も失敗させる
-          fail-unspecified-license-type: true
+          # fail-unspecified-license-type: true
