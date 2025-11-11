@@ -13,12 +13,29 @@ jobs:
     steps:
       - uses: actions/checkout@v4
 
+      - name: ロックファイルの確認
+        id: check-lock-files
+        run: |
+          result=""
+          if [ -f yarn.lock ]; then result="yarn.lock"; fi
+          if [ -f composer.lock ]; then
+            if [ -n "$result" ]; then
+              result="$result,composer.lock"
+            else
+              result="composer.lock"
+            fi
+          fi
+          echo "requirements=$result" >> $GITHUB_OUTPUT
+
       - name: Run License Compliance Checker
-        if: |
-          hasFiles('yarn.lock') != '' || hasFiles('composer.lock') != ''
+        if: steps.check-lock-files.outputs.requirements != ''
         uses: pilosus/action-pip-license-checker@v3
         with:
           # チェックする依存関係のファイル（複数の場合はカンマ区切りで記述）
-          requirements: 'yarn.lock,composer.lock'
+          requirements: ${{ steps.check-lock-files.outputs.requirements }}
           # Permissive（MIT, BSD, Apache-2.0など）以外を全て失敗させる
           fail: 'StrongCopyleft, WeakCopyleft, NetworkCopyleft, Proprietary, Other, Error'
+
+      - name: No lock files found
+        if: steps.check-lock-files.outputs.requirements == ''
+        run: echo "No recognized lock files found. Skipping license compliance check."
