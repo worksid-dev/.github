@@ -1,0 +1,65 @@
+name: License Compliance
+
+jobs:
+  license-check:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Check for yarn.lock
+        id: check-yarn
+        run: |
+          if [ -f yarn.lock ]; then
+            echo "exists=true" >> $GITHUB_OUTPUT
+          else
+            echo "exists=false" >> $GITHUB_OUTPUT
+          fi
+
+      - name: Check for composer.lock
+        id: check-composer
+        run: |
+          if [ -f composer.lock ]; then
+            echo "exists=true" >> $GITHUB_OUTPUT
+          else
+            echo "exists=false" >> $GITHUB_OUTPUT
+          fi
+
+      - name: Setup Node.js for yarn license check
+        if: steps.check-yarn.outputs.exists == 'true'
+        uses: actions/setup-node@v4
+        with:
+          node-version: '24'
+
+      - name: Install yarn
+        if: steps.check-yarn.outputs.exists == 'true'
+        run: npm install -g yarn
+
+      - name: Install license-checker
+        if: steps.check-yarn.outputs.exists == 'true'
+        run: yarn global add license-checker
+
+      - name: Run yarn license check
+        if: steps.check-yarn.outputs.exists == 'true'
+        run: |
+          yarn install --frozen-lockfile
+          license-checker --onlyAllow 'MIT;BSD;BSD-2-Clause;BSD-3-Clause;Apache-2.0;ISC;Unlicense;WTFPL;0BSD;CC0-1.0'
+
+      - name: Setup PHP for composer license check
+        if: steps.check-composer.outputs.exists == 'true'
+        uses: shivammathur/setup-php@v2
+        with:
+          php-version: '8.3'
+
+      - name: Install composer-license-checker
+        if: steps.check-composer.outputs.exists == 'true'
+        run: composer global require dominikb/composer-license-checker
+
+      - name: Run composer license check
+        if: steps.check-composer.outputs.exists == 'true'
+        run: |
+          composer install --no-dev
+          composer-license-checker check --allow MIT,BSD-2-Clause,BSD-3-Clause,Apache-2.0,ISC,Unlicense,WTFPL,0BSD,CC0-1.0
+
+      - name: No lock files found
+        if: steps.check-yarn.outputs.exists == 'false' && steps.check-composer.outputs.exists == 'false'
+        run: echo "No recognized lock files found. Skipping license compliance check."
