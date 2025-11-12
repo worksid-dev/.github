@@ -1,5 +1,22 @@
 name: License Compliance
 
+on:
+  workflow_call:
+    inputs:
+      node-version:
+        description: "Node.js version for yarn license check"
+        required: false
+        type: string
+        default: "24"
+      php-version:
+        description: "PHP version for composer license check"
+        required: false
+        type: string
+        default: "8.3"
+    secrets:
+      GITHUB_TOKEN:
+        required: true
+
 jobs:
   license-check:
     runs-on: ubuntu-latest
@@ -28,7 +45,7 @@ jobs:
         if: steps.check-yarn.outputs.exists == 'true'
         uses: actions/setup-node@v4
         with:
-          node-version: '24'
+          node-version: "${{ inputs.node-version }}"
 
       - name: Install yarn
         if: steps.check-yarn.outputs.exists == 'true'
@@ -48,7 +65,7 @@ jobs:
         if: steps.check-composer.outputs.exists == 'true'
         uses: shivammathur/setup-php@v2
         with:
-          php-version: '8.3'
+          php-version: "${{ inputs.php-version }}"
 
       - name: Install composer-license-checker
         if: steps.check-composer.outputs.exists == 'true'
